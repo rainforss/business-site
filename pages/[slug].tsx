@@ -9,7 +9,7 @@ import {
   getSectionsOfPage,
 } from "../services/contentful";
 
-interface IHomePageProps {
+interface IMasterPageProps {
   sections: IPageSection[];
 }
 
@@ -17,7 +17,9 @@ interface IParams extends ParsedUrlQuery {
   slug: string;
 }
 
-const Home: React.FunctionComponent<IHomePageProps> = ({ sections }) => {
+const MasterPage: React.FunctionComponent<IMasterPageProps> = ({
+  sections,
+}) => {
   return (
     <Layout>
       {sections.map((s) => {
@@ -28,15 +30,33 @@ const Home: React.FunctionComponent<IHomePageProps> = ({ sections }) => {
   );
 };
 
+export async function getStaticPaths() {
+  const { webPages } = await getAllWebPages(client);
+  const paths = webPages.map((wp) => ({
+    params: {
+      slug: wp.fields.relativeUrl,
+    },
+  }));
+  return {
+    paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+}
+
 export const getStaticProps: GetStaticProps<{
   sections: IPageSection[];
-}> = async (_context) => {
-  const { sections } = await getSectionsOfPage(client, "home");
+}> = async (context) => {
+  if (!context.params) {
+    return {
+      props: { sections: [] },
+    };
+  }
+  const { slug } = context.params as IParams;
+  const { sections } = await getSectionsOfPage(client, slug as string);
+
   if (!sections) {
     return {
-      props: {
-        sections: [],
-      },
+      props: { sections: [] },
     };
   }
   return {
@@ -45,4 +65,4 @@ export const getStaticProps: GetStaticProps<{
   };
 };
 
-export default Home;
+export default MasterPage;
