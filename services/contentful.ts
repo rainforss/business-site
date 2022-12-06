@@ -36,6 +36,7 @@ export const getSectionsOfPage = async (
     return { sections: [] };
   }
   return {
+    page: webPages[0],
     sections: webPages[0].fields.pageSections,
   };
 };
