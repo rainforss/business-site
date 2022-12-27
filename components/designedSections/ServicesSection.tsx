@@ -4,32 +4,29 @@ import { IPageSection } from "../../@types/generated/contentful";
 import { bodoni } from "../../pages/_app";
 import { getRenderOption } from "../../utils/richTextParser";
 
-interface IHeroSectionProps {
+interface IServicesSectionProps {
   section: IPageSection;
 }
 
-const HeroSection: React.FunctionComponent<IHeroSectionProps> = ({
+const ServicesSection: React.FunctionComponent<IServicesSectionProps> = ({
   section,
 }) => {
   return (
     <section
       id={section.fields.sectionId}
       className="bg-[#faf8f5] flex pb-12 pt-12"
-      style={{
-        backgroundImage: "url('/atomshine.svg')",
-        backgroundSize: "cover",
-      }}
     >
-      <div className="p-6 w-full md:w-4/5 mx-auto text-[#faf8f5]">
-        <div className="flex flex-col gap-8 w-full md:w-1/2">
-          <h5 className="text-lg">{section.fields.overline}</h5>
-          <h1
-            className={`text-5xl md:text-6xl font-bold leading-[3rem] md:leading-[5rem] ${bodoni.className}`}
+      <div className="p-6 w-full md:w-4/5 mx-auto text-black">
+        <div className="flex flex-col gap-8 w-full">
+          <h2
+            className={`text-4xl md:text-6xl text-center font-bold leading-[3rem] md:leading-[5rem] ${bodoni.className}`}
           >
             {section.fields.mainHeading}
-          </h1>
-          <h3 className="text-2xl">{section.fields.subHeading}</h3>
-          <div>
+          </h2>
+          <h3 className="text-2xl text-center mb-8">
+            {section.fields.subHeading}
+          </h3>
+          <div className="flex services-container flex-wrap">
             {documentToReactComponents(
               section.fields.content!,
               getRenderOption()
@@ -42,4 +39,4 @@ const HeroSection: React.FunctionComponent<IHeroSectionProps> = ({
   );
 };
 
-export default HeroSection;
+export default ServicesSection;

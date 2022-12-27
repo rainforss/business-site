@@ -18,6 +18,12 @@ export interface IBlogpostFields {
 
   /** Blog Body */
   blogBody: Document;
+
+  /** Cover Text */
+  coverText?: string | undefined;
+
+  /** Slug */
+  slug: string;
 }
 
 export interface IBlogpost extends Entry<IBlogpostFields> {
@@ -30,6 +36,34 @@ export interface IBlogpost extends Entry<IBlogpostFields> {
     contentType: {
       sys: {
         id: "blogpost";
+        linkType: "ContentType";
+        type: "Link";
+      };
+    };
+  };
+}
+
+export interface IButtonFields {
+  /** Label */
+  label: string;
+
+  /** Variant */
+  variant: "Primary" | "Secondary" | "Link";
+
+  /** URL */
+  url?: string | undefined;
+}
+
+export interface IButton extends Entry<IButtonFields> {
+  sys: {
+    id: string;
+    type: string;
+    createdAt: string;
+    updatedAt: string;
+    locale: string;
+    contentType: {
+      sys: {
+        id: "button";
         linkType: "ContentType";
         type: "Link";
       };
@@ -88,7 +122,14 @@ export interface IPageSectionFields {
   backgroundImage?: Asset | undefined;
 
   /** Designed Section */
-  designedSection: "HeroSection";
+  designedSection:
+    | "HeroSection"
+    | "ServicesSection"
+    | "CtaSection"
+    | "RecentBlogsSection";
+
+  /** Publications */
+  publications?: IBlogpost[] | undefined;
 }
 
 export interface IPageSection extends Entry<IPageSectionFields> {
@@ -188,6 +229,40 @@ export interface IReview extends Entry<IReviewFields> {
   };
 }
 
+export interface IServiceFields {
+  /** Name */
+  name: string;
+
+  /** Title */
+  title: string;
+
+  /** Description */
+  description: string;
+
+  /** Relative URL */
+  relativeUrl: string;
+
+  /** Primary Image */
+  primaryImage: Asset;
+}
+
+export interface IService extends Entry<IServiceFields> {
+  sys: {
+    id: string;
+    type: string;
+    createdAt: string;
+    updatedAt: string;
+    locale: string;
+    contentType: {
+      sys: {
+        id: "service";
+        linkType: "ContentType";
+        type: "Link";
+      };
+    };
+  };
+}
+
 export interface IWebPageFields {
   /** Page Title */
   pageTitle: string;
@@ -227,18 +302,22 @@ export interface IWebPage extends Entry<IWebPageFields> {
 
 export type CONTENT_TYPE =
   | "blogpost"
+  | "button"
   | "marketingEmail"
   | "pageSection"
   | "project"
   | "review"
+  | "service"
   | "webPage";
 
 export type IEntry =
   | IBlogpost
+  | IButton
   | IMarketingEmail
   | IPageSection
   | IProject
   | IReview
+  | IService
   | IWebPage;
 
 export type LOCALE_CODE = "en-US";

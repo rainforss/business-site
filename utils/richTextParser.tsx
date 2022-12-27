@@ -1,6 +1,7 @@
 import { Options } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import Image from "next/image";
+import Link from "next/link";
 
 export const getRenderOption = () => {
   const option: Options = {
@@ -35,6 +36,35 @@ export const getRenderOption = () => {
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
         const contentType = node.data.target.sys.contentType.sys.id;
+
+        if (contentType === "service") {
+          const { name, title, description, relativeUrl, primaryImage } =
+            node.data.target.fields;
+          return (
+            <div className="w-full lg:w-1/4">
+              <div className="overflow-hidden h-[165px] lg:h-[245px]">
+                <Image
+                  src={`https:${primaryImage.fields.file.url}`}
+                  width={500}
+                  height={500}
+                  alt={name}
+                  className="object-cover hover:scale-125 transition-all"
+                />
+              </div>
+              <div className="mr-6 mb-8">
+                <p className="h-12 flex items-center">
+                  <strong>{name}</strong>
+                </p>
+                <h2 className="text-3xl my-4">
+                  <Link href={relativeUrl} className="hover:underline">
+                    {title}
+                  </Link>
+                </h2>
+                <p>{description}</p>
+              </div>
+            </div>
+          );
+        }
 
         // if (contentType === "interactiveComponent") {
         //   const { carouselItems, imageCarouselItems } = node.data.target.fields;

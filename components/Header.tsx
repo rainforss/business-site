@@ -2,13 +2,36 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { mulish } from "../pages/_app";
-import businessLogo from "../public/logo-black.svg";
 
 interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
+  const [scrollPosition, setScrollPosition] = React.useState(0);
+  const handleScroll = () => {
+    if (window.scrollY < scrollPosition) {
+      document.getElementById("header")?.classList.add("sticky");
+      document.getElementById("header")?.classList.remove("opacity-0");
+      document.getElementById("header")?.classList.add("opacity-100");
+      setScrollPosition(window.scrollY);
+    }
+    if (window.scrollY > scrollPosition) {
+      document.getElementById("header")?.classList.remove("sticky");
+      document.getElementById("header")?.classList.remove("opacity-100");
+      document.getElementById("header")?.classList.add("opacity-0");
+      setScrollPosition(window.scrollY);
+    }
+  };
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
   return (
-    <header className="flex justify-between items-center p-6 w-4/5 mx-auto">
+    <header
+      id="header"
+      className="flex justify-between items-center p-6 w-full mx-auto bg-white top-0 transition-opacity duration-500 opacity-100"
+    >
       <div className={`flex justify-start items-center ${mulish.className}`}>
         <Image
           src={
@@ -18,7 +41,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           height={100}
           alt="EffiTech Logo"
         />
-        <nav className="ml-24">
+        <nav className="ml-24 hidden lg:block">
           <ul className="flex gap-8 uppercase font-bold">
             <li>
               <Link
@@ -60,7 +83,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           </ul>
         </nav>
       </div>
-      <div>
+      <div className="hidden lg:block">
         <button className="uppercase bg-[#374151] border-[#374151] border-2 border-solid text-white px-6 py-2 hover:bg-white hover:text-[#374151] transition-all duration-500">
           Ask a question
         </button>

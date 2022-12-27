@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media screen and (min-width: 1024px) {
+  .services-container > div:nth-child(1) {
+    @apply mt-0;
+  }
+
+  .services-container > div:nth-child(2) {
+    @apply mt-12;
+  }
+
+  .services-container > div:nth-child(3) {
+    @apply mt-24;
+  }
+
+  .services-container > div:nth-child(4) {
+    @apply mt-36;
+  }
+
+  .recent-blog-container:nth-child(1n) {
+    @apply translate-y-12;
+  }
+
+  .recent-blog-container:nth-child(2n) {
+    @apply translate-y-0;
+  }
+}
