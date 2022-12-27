@@ -51,7 +51,7 @@ const EmailListForm: React.FunctionComponent<IEmailListFormProps> = (props) => {
     >
       {(props: FormikProps<ContactInfoValue>) => {
         return (
-          <Form className="p-0 flex flex-col md:flex-row items-center w-full">
+          <Form className="p-0 flex flex-col md:flex-row items-start w-full">
             <TextInput
               id="emailaddress"
               name="emailaddress"
